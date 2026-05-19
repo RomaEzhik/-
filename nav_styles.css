@@ -1228,16 +1228,9 @@ select {
     width: 60px;
   }
 
-  /* --- Плавающие кнопки этажей --- */
+  /* --- Плавающие кнопки этажей скрыты — дублируют кнопки в топбаре --- */
   .floor-nav {
-    left: 8px;
-    gap: 6px;
-  }
-
-  .floor-nav-btn {
-    width: 38px;
-    height: 38px;
-    font-size: 18px;
+    display: none !important;
   }
 
   /* --- Кастомная подсказка-облачко --- */
@@ -1333,9 +1326,7 @@ select {
   .step-path-full { font-size: 11px; }
   .step-change { font-size: 11px; }
 
-  .floor-nav-btn {
-    width: 34px;
-    height: 34px;
-    font-size: 16px;
+  .floor-nav {
+    display: none !important;
   }
 }
