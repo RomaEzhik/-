@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Навигация по институту</title>
+  <link rel="stylesheet" href="nav_styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Предзагрузка изображений этажей -->
+  <link rel="preload" href="floors/floor1.svg" as="image" />
+  <link rel="preload" href="floors/floor2.svg" as="image" />
+  <link rel="preload" href="floors/floor3.svg" as="image" />
+  <link rel="preload" href="floors/floor4.svg" as="image" />
+</head>
+<body>
+  <!-- Кнопка "На главную" -->
+  <div class="home-button-container">
+    <a href="index.html" class="home-button" id="homeButton">
+      <i class="fas fa-home"></i>
+      <span class="home-tooltip">На главную</span>
+    </a>
+  </div>
+
+  <header class="topbar">
+    <div class="controls">
+      <!-- Компактный выбор корпуса и аудитории для старта -->
+      <div class="field compact">
+        <label for="startSection">Старт</label>
+        <select id="startSection" class="section-select"></select>
+        <select id="startSelect" class="room-select"></select>
+      </div>
+      
+      <!-- Компактный выбор корпуса и аудитории для финиша -->
+      <div class="field compact">
+        <label for="endSection">Финиш</label>
+        <select id="endSection" class="section-select"></select>
+        <select id="endSelect" class="room-select"></select>
+      </div>
+
+      <!-- Кнопки управления маршрутом -->
+      <button id="buildBtn" class="btn">Построить маршрут</button>
+      <button id="clearBtn" class="btn btn-ghost">Сброс</button>
+      
+      <!-- Переключатель этажей -->
+      <div class="floor-selector">
+        <button class="floor-btn active" data-floor="floor1">1</button>
+        <button class="floor-btn" data-floor="floor2">2</button>
+        <button class="floor-btn" data-floor="floor3">3</button>
+        <button class="floor-btn" data-floor="floor4">4</button>
+      </div>
+      
+      <!-- Кнопки масштабирования -->
+      <div class="zoom-controls">
+        <button onclick="zoomIn()" class="btn btn-small">+</button>
+        <button onclick="zoomOut()" class="btn btn-small">−</button>
+        <button onclick="resetZoom()" class="btn btn-small">⟲</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="stage">
+    <div class="map-wrap">
+      <svg id="mapSvg" viewBox="0 0 1562 749" preserveAspectRatio="xMidYMid meet">
+        <!-- Подложка (первый этаж загружается сразу) -->
+        <image href="floors/floor1.svg" x="0" y="0" width="1562" height="749" loading="eager" />
+
+        <!-- Слой маршрута -->
+        <g id="routeLayer">
+          <path id="routePath" class="route" d="" />
+          <circle id="navDot" class="navdot" r="1.8" cx="-100" cy="-100"></circle>
+        </g>
+
+        <!-- Слой кликабельных точек (заполняется через JavaScript) -->
+        <g id="nodesLayer"></g>
+      </svg>
+    </div>
+
+    <!-- Боковая панель с результатами -->
+    <aside class="panel">
+      <div class="card">
+        <div class="card-title">Результат</div>
+        <div id="resultText" class="result">Выбери старт и финиш.</div>
+      </div>
+      
+      <!-- Панель подсветки корпусов -->
+      <div class="card corpus-highlight-panel">
+        <div class="card-title">
+          <i class="fas fa-highlighter"></i> Подсветка корпусов
+          <button id="clearAllHighlight" class="clear-highlight-btn">✖ Сбросить всё</button>
+        </div>
+        
+        <div class="corpus-checkboxes">
+          <label class="corpus-checkbox" data-corpus="uk1">
+            <input type="checkbox" value="uk1"> 
+            <span class="checkmark"></span>
+            <span class="corpus-name" style="color: #4285f4;">УК №1</span>
+          </label>
+          <label class="corpus-checkbox" data-corpus="uk3">
+            <input type="checkbox" value="uk3"> 
+            <span class="checkmark"></span>
+            <span class="corpus-name" style="color: #34a853;">УК №3</span>
+          </label>
+          <label class="corpus-checkbox" data-corpus="uk4">
+            <input type="checkbox" value="uk4"> 
+            <span class="checkmark"></span>
+            <span class="corpus-name" style="color: #fbbc04;">УК №4</span>
+          </label>
+          <label class="corpus-checkbox" data-corpus="uk5">
+            <input type="checkbox" value="uk5"> 
+            <span class="checkmark"></span>
+            <span class="corpus-name" style="color: #ea4335;">УК №5</span>
+          </label>
+          <label class="corpus-checkbox" data-corpus="общежитие">
+            <input type="checkbox" value="общежитие"> 
+            <span class="checkmark"></span>
+            <span class="corpus-name" style="color: #a142f4;">Общежитие</span>
+          </label>
+        </div>
+        
+        <div class="highlight-options">
+          <label>
+            <input type="checkbox" id="blinkMode"> 
+            <i class="fas fa-sync-alt"></i> Мигание
+          </label>
+          <label class="speed-control">
+            <span>Скорость:</span>
+            <input type="range" id="blinkSpeed" min="0.5" max="2" step="0.1" value="1">
+            <span id="speedValue" class="speed-value">1x</span>
+          </label>
+    </aside>
+  </main>
+
+  <!-- Плавающие кнопки переключения этажей -->
+  <div class="floor-nav">
+    <button id="floorUpBtn" class="floor-nav-btn" title="На этаж выше">▲</button>
+    <button id="floorDownBtn" class="floor-nav-btn" title="На этаж ниже">▼</button>
+  </div>
+
+  <!-- Кастомная подсказка в виде облачка (появляется при необходимости) -->
+  <div id="customHint" class="custom-hint hidden">
+    <div class="hint-icon">
+      <span class="loader"></span>
+    </div>
+    <div class="hint-bubble">
+      <div class="hint-text"></div>
+    </div>
+  </div>
+
+  <!-- Подключение скриптов -->
+  <script src="building.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

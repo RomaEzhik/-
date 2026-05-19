@@ -1,0 +1,1058 @@
+/* ==========================================================================
+    НАСТРОЙКА СКРОЛЛБАРА (ПОЛОСЫ ПРОКРУТКИ)
+    ========================================================================== */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #1f89c3ff #fafafa;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fafafa; 
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #1f89c3ff;
+    border-radius: 4px;
+    border: 2px solid #fafafa;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #15618a;
+}
+
+/* ==========================================================================
+    БАЗОВЫЕ НАСТРОЙКИ СТРАНИЦЫ
+    ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans";
+}
+
+body {
+    background-color: #fafafa;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Меню-бургер */
+.menu-container {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 1000;
+}
+
+.menu-icon {
+    width: 60px;
+    height: 60px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 2px solid #e0e0e0;
+}
+
+.menu-icon:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    border-color: #1f89c3;
+}
+
+.menu-icon span {
+    width: 28px;
+    height: 3px;
+    background: #333;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+.menu-icon.active span:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+}
+
+.menu-icon.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-icon.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Выпадающее меню */
+.dropdown-menu {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    width: 260px;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.menu-item {
+    padding: 16px 22px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 16px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.menu-item:hover {
+    background: #f5f5f5;
+    color: #1f89c3;
+}
+
+.menu-item i {
+    width: 24px;
+    font-size: 18px;
+    color: #1f89c3;
+}
+
+/* Всплывающая подсказка */
+.tooltip-popup {
+    position: fixed;
+    top: 150px;
+    right: 25px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+    text-align: center;
+    font-weight: 500;
+    color: #333;
+    border: 2px solid #1f89c3;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    padding: 18px 45px 18px 25px;
+    font-size: 18px;
+    max-width: 400px;
+    border-radius: 20px;
+}
+
+.tooltip-popup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tooltip-popup i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #999;
+    transition: color 0.2s;
+}
+
+.tooltip-popup i:hover {
+    color: #ff4d6d;
+}
+
+/* Карточка функционала */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.feature-card {
+    width: 360px;
+    max-width: 90%;
+    min-height: 380px;
+    border-radius: 20px;
+    position: relative;
+    padding: 1.8rem;
+    border: 2px solid #1f89c3;
+    transition: 0.5s ease-out;
+    overflow: visible;
+    background: white;
+}
+
+.feature-card .close-card {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    background: black;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.feature-card .close-card i {
+    color: white;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.feature-card .close-card:hover {
+    transform: scale(1.1);
+    background: black;
+}
+
+.card-details {
+    color: #fff;
+    height: 100%;
+    gap: .5em;
+    display: grid;
+    place-content: center;
+    text-align: center;
+}
+
+.card-button {
+    transform: translate(-50%, 125%);
+    width: 60%;
+    border-radius: 1rem;
+    border: none;
+    background-color: #008bf8;
+    color: #fff;
+    font-size: 1rem;
+    padding: .5rem 1rem;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    opacity: 0;
+    transition: 0.3s ease-out;
+    cursor: default;
+    pointer-events: none;
+}
+
+.text-body {
+    color: #666464;
+    margin-top: 10px;
+    line-height: 1.6;
+    font-size: 17px;
+}
+
+.text-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: black;
+}
+
+.feature-card:hover {
+    border-color: #008bf8;
+    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
+
+.feature-card:hover .card-button {
+    transform: translate(-50%, 50%);
+    opacity: 1;
+}
+
+/* Шапка сайта */
+header {
+    display: flex;
+    align-items: center;
+    padding: 40px max(20px, calc((100% - 1200px) / 2));
+    background-color: #fff;
+    position: relative;
+    min-height: 160px;
+}
+
+.site-logo {
+    height: 190px;
+    width: auto;
+    display: block;
+    position: absolute;
+    left: max(20px, calc((100% - 1200px) / 2));
+    z-index: 2;
+}
+
+.header-text-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 140px; 
+}
+
+.typewriter-container {
+    display: inline-block;
+    position: relative;
+}
+
+.loader {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #000;
+    animation: typewriter 3.5s steps(30, end) infinite alternate, blink 0.6s steps(2, start) infinite;
+    width: 100%;
+}
+
+.header-text {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Главный блок */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px max(20px, calc((100% - 1200px) / 2));
+    background-color: #fff;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+    gap: 40px;
+}
+
+.hero-content {
+    max-width: 55%;
+    text-align: left;
+}
+
+.hero-content h1 {
+    font-size: 38px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.hero-content p {
+    font-size: 23px;
+    line-height: 1.6;
+    color: #222;
+}
+
+.hero-image {
+    max-width: 45%;
+    display: flex;
+    justify-content: center;
+}
+
+.main-map-img {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    display: block;
+}
+
+/* Обёртка для инструкции и CTA */
+.instructions-cta-wrapper {
+    background-color: #f4f4f6; 
+    position: relative;        
+    overflow: hidden;          
+    width: 100%;
+}
+
+/* Раздел инструкций */
+.instructions-section {
+    padding: 60px max(20px, calc((100% - 1200px) / 2)) 40px max(20px, calc((100% - 1200px) / 2));
+    text-align: center;
+}
+
+.instructions-section h2 {
+    font-size: 38px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    letter-spacing: -0.02em;
+    position: relative; 
+    z-index: 2; 
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    position: relative;
+    z-index: 2;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+/* Флип-карты */
+.flip-card {
+    background-color: transparent;
+    width: 280px;
+    height: 280px;
+    perspective: 1000px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transition-timing-function: cubic-bezier(0.61, 0.98, 0.48, 1.01);
+    transform-style: preserve-3d;
+    border-radius: 1rem;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotate(180deg) rotateX(180deg);
+}
+
+/* Для touch-устройств — переворот по клику */
+@media (hover: none) and (pointer: coarse) {
+    .flip-card.tapped .flip-card-inner {
+        transform: rotate(180deg) rotateX(180deg);
+    }
+}
+
+.flip-card-front,
+.flip-card-back {
+    box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.15);
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 1rem;
+}
+
+.flip-card-front {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #e0e0e0;
+    background-image: 
+        linear-gradient(to bottom right, #000000 0%, #000000 50%, transparent 50%), 
+        linear-gradient(to bottom left, #000000 0%, #000000 50%, transparent 50%),  
+        linear-gradient(to top right, #000000 0%, #000000 50%, transparent 50%),    
+        linear-gradient(to top left, #000000 0%, #000000 50%, transparent 50%);     
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: top left, top right, bottom left, bottom right;
+}
+
+.step-circle {
+    width: 100px;
+    height: 100px;
+    border: 3px solid #1e88c2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.step-circle .title {
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.flip-card-back {
+    background: #000;
+    color: #fff;
+    transform: rotateY(180deg);
+    border: 2px solid #1f89c3;
+}
+
+.flip-card .title {
+    font-size: 23px;
+    font-weight: 800; 
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.icon-circle {
+    width: 70px;
+    height: 70px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.icon-circle i {
+    font-size: 28px;
+}
+
+/* Облака */
+.cloud {
+    position: absolute;
+    z-index: 1; 
+    fill: #fff;                 
+    stroke: #000;               
+    stroke-width: 2.5px;        
+    stroke-linejoin: round;     
+    animation: driftRightToLeft linear infinite;
+}
+
+.cloud-1 {
+    width: 90px;
+    top: 5%; 
+    left: 100%; 
+    animation-duration: 26s;
+    opacity: 0.9;
+}
+
+.cloud-2 {
+    width: 65px;
+    top: 32%; 
+    left: 100%;
+    animation-duration: 19s;
+    animation-delay: -4s; 
+    opacity: 0.8;
+}
+
+.cloud-3 {
+    width: 120px;
+    top: 58%; 
+    left: 100%;
+    animation-duration: 32s;
+    animation-delay: -12s;
+    opacity: 0.95;
+}
+
+.cloud-4 {
+    width: 75px;
+    bottom: 12%; 
+    left: 100%;
+    animation-duration: 23s;
+    animation-delay: -7s;
+    opacity: 0.85;
+}
+
+/* CTA секция */
+.cta-section {
+    padding: 40px max(20px, calc((100% - 1200px) / 2)) 100px max(20px, calc((100% - 1200px) / 2));
+    text-align: center;
+    position: relative;
+    z-index: 2; 
+}
+
+.cta-title {
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #000;
+    letter-spacing: -0.01em;
+}
+
+/* Кнопка */
+.play-button {
+    position: relative;
+    width: 11em;
+    height: 4em;
+    outline: none;
+    transition: color 0.3s ease;
+    background-color: transparent;
+    border: none;
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #000000;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+    text-decoration: none;
+    line-height: 4em;
+    z-index: 1;
+}
+
+#clip {
+    --color: #000000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border: 5px double var(--color);
+    box-shadow: inset 0px 0px 15px rgba(0, 0, 0, 0.2);
+    -webkit-clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    z-index: -1;
+}
+
+.arrow {
+    position: absolute;
+    transition: 0.2s;
+    background-color: #000000;
+    top: 35%;
+    width: 11%;
+    height: 30%;
+    z-index: 2;
+}
+
+#leftArrow { left: -13.5%; -webkit-clip-path: polygon(100% 0, 100% 100%, 0 50%); }
+#rightArrow { -webkit-clip-path: polygon(100% 49%, 0 0, 0 100%); left: 102%; }
+
+.play-button:hover { color: #ffffff; }
+.play-button:hover #clip { animation: 0.2s ease-in-out 0.55s both greenLight8; background-color: #000000; }
+.play-button:hover #rightArrow { background-color: #000000; left: -15%; animation: 0.6s ease-in-out both infinite alternate rightArrow8; }
+.play-button:hover #leftArrow { background-color: #000000; left: 103%; animation: 0.6s ease-in-out both infinite alternate leftArrow8; }
+
+.corner {
+    position: absolute;
+    width: 4em;
+    height: 4em;
+    background-color: #000000;
+    box-shadow: inset 1px 1px 8px rgba(0, 0, 0, 0.6);
+    transform: scale(1) rotate(45deg);
+    transition: 0.2s;
+}
+
+#rightTop { top: -1.98em; left: 91%; }
+#leftTop { top: -1.96em; left: -3.0em; }
+#leftBottom { top: 2.10em; left: -2.15em; }
+#rightBottom { top: 45%; left: 88%; }
+
+.play-button:hover .corner { transform: scale(1.25) rotate(45deg); }
+
+.play-button:hover #leftTop { animation: 0.1s ease-in-out 0.05s both changeColor8, 0.2s linear 0.4s both lightEffect8; }
+.play-button:hover #rightTop { animation: 0.1s ease-in-out 0.15s both changeColor8, 0.2s linear 0.4s both lightEffect8; }
+.play-button:hover #rightBottom { animation: 0.1s ease-in-out 0.25s both changeColor8, 0.2s linear 0.4s both lightEffect8; }
+.play-button:hover #leftBottom { animation: 0.1s ease-in-out 0.35s both changeColor8, 0.2s linear 0.4s both lightEffect8; }
+
+@keyframes changeColor8 { from { background-color: #000000; } to { background-color: #ffffff; } }
+@keyframes lightEffect8 { from { box-shadow: 1px 1px 5px #ffffff; } to { box-shadow: 0 0 2px #ffffff; } }
+@keyframes greenLight8 { to { box-shadow: inset 0px 0px 32px rgba(255, 255, 255, 0.3); } }
+@keyframes leftArrow8 { from { transform: translate(0px); } to { transform: translateX(10px); } }
+@keyframes rightArrow8 { from { transform: translate(0px); } to { transform: translateX(-10px); } }
+
+/* Подвал */
+footer {
+    padding: 60px max(20px, calc((100% - 1200px) / 2));
+    background-color: #fff;
+    text-align: center;
+}
+
+.footer-title {
+    font-size: 38px;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+.footer-columns {
+    display: flex;
+    justify-content: center; 
+    text-align: center;      
+    gap: 80px;               
+}
+
+.footer-col h4 {
+    font-size: 22px; 
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.footer-col div, .footer-col p {
+    margin-bottom: 10px;
+    font-size: 18px; 
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Анимации */
+@keyframes typewriter { 0%, 10% { width: 0; } 70%, 100% { width: 100%; } }
+@keyframes blink { from, to { border-color: transparent; } 50% { border-color: #000; } }
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes driftRightToLeft {
+    from { transform: translateX(0vw); }
+    to { transform: translateX(-130vw); }
+}
+
+/* ==========================================================================
+    АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+    ========================================================================== */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    header { 
+        flex-direction: column; 
+        min-height: auto; 
+        padding: 30px 20px; 
+    }
+    .site-logo { 
+        position: static; 
+        margin-bottom: 20px; 
+        height: 120px;
+    }
+    .header-text-container { 
+        padding-left: 0; 
+    }
+    .header-text {
+        font-size: 28px;
+    }
+    .loader {
+        font-size: 28px;
+    }
+
+    .hero { 
+        flex-direction: column-reverse; 
+        text-align: center; 
+        padding: 40px 20px; 
+    }
+    .hero-content { 
+        max-width: 100%; 
+    }
+    .hero-content h1 {
+        font-size: 32px;
+    }
+    .hero-content p {
+        font-size: 18px;
+    }
+    .hero-image { 
+        max-width: 80%; 
+    }
+
+    .instructions-section h2 {
+        font-size: 32px;
+    }
+    .cards-container { 
+        gap: 20px; 
+    }
+    .flip-card {
+        width: 260px;
+        height: 260px;
+    }
+    .step-circle {
+        width: 80px;
+        height: 80px;
+    }
+    .step-circle .title {
+        font-size: 20px;
+    }
+    .flip-card .title {
+        font-size: 20px;
+    }
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+    }
+    .icon-circle i {
+        font-size: 24px;
+    }
+
+    .cloud { 
+        display: none; 
+    }
+
+    .menu-container { 
+        top: 15px; 
+        right: 15px; 
+    }
+    .menu-icon { 
+        width: 50px; 
+        height: 50px; 
+    }
+    .menu-icon span { 
+        width: 24px; 
+        height: 3px; 
+    }
+    .dropdown-menu { 
+        width: 220px; 
+        top: 60px; 
+    }
+    .menu-item { 
+        padding: 12px 18px; 
+        font-size: 14px; 
+    }
+
+    .tooltip-popup { 
+        top: 90px; 
+        right: 15px; 
+        font-size: 14px; 
+        white-space: normal; 
+        max-width: 260px;
+        padding: 12px 35px 12px 18px;
+    }
+    .tooltip-popup i {
+        font-size: 14px;
+    }
+
+    .feature-card { 
+        width: 320px; 
+        min-height: 360px;
+        padding: 1.5rem;
+    }
+    .text-body {
+        font-size: 15px;
+    }
+    .text-title {
+        font-size: 1.3em;
+    }
+
+    .footer-title {
+        font-size: 28px;
+    }
+    .footer-columns {
+        gap: 40px;
+    }
+    .footer-col h4 {
+        font-size: 20px;
+    }
+    .footer-col div, .footer-col p {
+        font-size: 16px;
+    }
+}
+
+/* Телефоны (до 768px) */
+@media (max-width: 768px) {
+    .site-logo {
+        height: 80px;
+    }
+    .header-text {
+        font-size: 20px;
+    }
+    .loader {
+        font-size: 20px;
+        white-space: normal;
+        text-align: center;
+        border-right: none;
+        animation: none;
+    }
+    .typewriter-container {
+        width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: 26px;
+    }
+    .hero-content p {
+        font-size: 15px;
+    }
+
+    .instructions-section h2 {
+        font-size: 26px;
+    }
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .flip-card {
+        width: 260px;
+        height: 260px;
+    }
+    .step-circle {
+        width: 70px;
+        height: 70px;
+    }
+    .step-circle .title {
+        font-size: 18px;
+    }
+    .flip-card .title {
+        font-size: 18px;
+    }
+    .icon-circle {
+        width: 55px;
+        height: 55px;
+    }
+    .icon-circle i {
+        font-size: 22px;
+    }
+
+    .cta-title {
+        font-size: 26px;
+    }
+    .play-button {
+        font-size: 18px;
+        width: 9em;
+        height: 3.5em;
+        line-height: 3.5em;
+    }
+
+    .menu-container { 
+        top: 10px; 
+        right: 10px; 
+    }
+    .menu-icon { 
+        width: 45px; 
+        height: 45px; 
+        gap: 5px;
+    }
+    .menu-icon span { 
+        width: 22px; 
+        height: 2.5px; 
+    }
+    .menu-icon.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    .menu-icon.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+    .dropdown-menu { 
+        width: 200px; 
+        top: 55px; 
+    }
+    .menu-item { 
+        padding: 10px 15px; 
+        font-size: 13px; 
+        gap: 8px;
+    }
+    .menu-item i {
+        width: 20px;
+        font-size: 14px;
+    }
+
+    .tooltip-popup { 
+        top: 70px; 
+        right: 10px; 
+        font-size: 12px; 
+        max-width: 220px;
+        padding: 10px 30px 10px 15px;
+    }
+    .tooltip-popup i {
+        font-size: 12px;
+        right: 12px;
+    }
+
+    .feature-card { 
+        width: 280px; 
+        min-height: 340px;
+        padding: 1.2rem;
+    }
+    .text-body {
+        font-size: 13px;
+        margin-top: 8px;
+    }
+    .text-title {
+        font-size: 1.2em;
+    }
+    .feature-card .close-card {
+        width: 28px;
+        height: 28px;
+        top: 10px;
+        right: 10px;
+    }
+    .feature-card .close-card i {
+        font-size: 12px;
+    }
+
+    .footer-title {
+        font-size: 22px;
+    }
+    .footer-columns {
+        flex-direction: column;
+        gap: 25px;
+    }
+    .footer-col h4 {
+        font-size: 18px;
+    }
+    .footer-col div, .footer-col p {
+        font-size: 14px;
+    }
+}
+
+/* Маленькие телефоны (до 480px) */
+@media (max-width: 480px) {
+    .header-text {
+        font-size: 18px;
+    }
+    .hero-content h1 {
+        font-size: 22px;
+    }
+    .hero-content p {
+        font-size: 14px;
+    }
+    .instructions-section h2 {
+        font-size: 22px;
+    }
+    .cta-title {
+        font-size: 22px;
+    }
+    .play-button {
+        font-size: 16px;
+        width: 8em;
+    }
+    .flip-card {
+        width: 240px;
+        height: 240px;
+    }
+    .step-circle {
+        width: 60px;
+        height: 60px;
+    }
+    .step-circle .title {
+        font-size: 16px;
+    }
+    .flip-card .title {
+        font-size: 16px;
+    }
+    .icon-circle {
+        width: 50px;
+        height: 50px;
+    }
+    .icon-circle i {
+        font-size: 20px;
+    }
+    .feature-card {
+        width: 260px;
+        min-height: 320px;
+    }
+    .tooltip-popup {
+        max-width: 200px;
+        font-size: 11px;
+        top: 65px;
+    }
+}

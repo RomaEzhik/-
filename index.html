@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Навигация по институту</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Меню-бургер -->
+    <div class="menu-container">
+        <div class="menu-icon" id="menuIcon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <div class="menu-item" id="whatIsIt">
+                <i class="fas fa-question-circle"></i>
+                <span>Что это такое?</span>
+            </div>
+            <div class="menu-item" id="instructionsLink">
+                <i class="fas fa-book-open"></i>
+                <span>Инструкция</span>
+            </div>
+            <div class="menu-item" id="featuresLink">
+                <i class="fas fa-map"></i>
+                <span>Функционал карты</span>
+            </div>
+            <div class="menu-item" id="aboutUsLink">
+                <i class="fas fa-users"></i>
+                <span>О нас</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Всплывающая подсказка -->
+    <div class="tooltip-popup" id="tooltipPopup">
+        <i class="fas fa-times" id="closeTooltip"></i>
+        <span>Это система навигации по институту :)</span>
+    </div>
+
+    <!-- Модальное окно с карточкой функционала -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="feature-card">
+            <div class="close-card" id="closeCard">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="card-details">
+                <p class="text-title">Функционал карты:</p>
+                <p class="text-body">
+                    - Построение маршрутов между любыми точками;<br>
+                    - Переключение между этажами;<br>
+                    - Многоэтажная навигация;<br>
+                    - Подсветка корпусов;<br>
+                    - Масштабирование карты.
+                </p>
+            </div>
+            <button class="card-button">привет)👀</button>
+        </div>
+    </div>
+
+    <header>
+        <img src="images/1.svg" alt="Логотип Навигации" class="site-logo">
+        <div class="header-text-container">
+            <div class="header-text">
+                <div class="typewriter-container">
+                    <span class="loader">Эй, а ты случайно не заблудился?</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Интерактивная карта</h1>
+                <p>Привет-привет |･ω･) На связи система навигации по институту. Это удобный инструмент для быстрого поиска и построения оптимальных маршрутов. Как раз то, что тебе сейчас нужно ಠ_ಠ</p>
+                <p>P.S. Не плачь, а то дождик пойдёт🌧</p>
+            </div>
+            <div class="hero-image">
+                <img src="images/2.svg" alt="Карта на облаке" class="main-map-img">
+            </div>
+        </section>
+
+        <div class="instructions-cta-wrapper">
+            
+            <svg class="cloud cloud-1" viewBox="0 0 64 40"><path d="M18 16a12 12 0 0 1 23.2-4 10 10 0 0 1 12.8 12 8 8 0 0 1-4 15.3H14a10 10 0 0 1-1.4-19.8 12 12 0 0 1 5.4-3.5z" /></svg>
+            <svg class="cloud cloud-2" viewBox="0 0 64 40"><path d="M18 16a12 12 0 0 1 23.2-4 10 10 0 0 1 12.8 12 8 8 0 0 1-4 15.3H14a10 10 0 0 1-1.4-19.8 12 12 0 0 1 5.4-3.5z" /></svg>
+            <svg class="cloud cloud-3" viewBox="0 0 64 40"><path d="M18 16a12 12 0 0 1 23.2-4 10 10 0 0 1 12.8 12 8 8 0 0 1-4 15.3H14a10 10 0 0 1-1.4-19.8 12 12 0 0 1 5.4-3.5z" /></svg>
+            <svg class="cloud cloud-4" viewBox="0 0 64 40"><path d="M18 16a12 12 0 0 1 23.2-4 10 10 0 0 1 12.8 12 8 8 0 0 1-4 15.3H14a10 10 0 0 1-1.4-19.8 12 12 0 0 1 5.4-3.5z" /></svg>
+
+            <section class="instructions-section" id="instructionsSection">
+                <h2>Инструкция</h2>
+                
+                <div class="cards-container">
+                    <div class="flip-card" id="flipCard1">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="step-circle">
+                                    <p class="title">1 шаг</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="icon-circle">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <p class="title">Выбери корпус</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" id="flipCard2">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="step-circle">
+                                    <p class="title">2 шаг</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="icon-circle">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <p class="title">Укажи точки</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" id="flipCard3">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="step-circle">
+                                    <p class="title">3 шаг</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="icon-circle">
+                                    <i class="fas fa-route"></i>
+                                </div>
+                                <p class="title">Получи маршрут</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta-section">
+                <h3 class="cta-title">Готовы начать?</h3>
+                
+                <a href="nav.html" class="play-button" id="startBtn">
+                    ДА
+                    <div id="clip">
+                        <div id="leftTop" class="corner"></div>
+                        <div id="rightTop" class="corner"></div>
+                        <div id="leftBottom" class="corner"></div>
+                        <div id="rightBottom" class="corner"></div>
+                    </div>
+                    <div id="leftArrow" class="arrow"></div>
+                    <div id="rightArrow" class="arrow"></div>
+                </a>
+            </section>
+        </div>
+    </main>
+
+    <footer id="footer">
+        <div class="footer-title">
+            <div class="typewriter-container" style="max-width: 350px; margin: 0 auto;">
+                <span class="loader" style="animation-duration: 2.5s;">Пора прощаться...</span>
+            </div>
+        </div>
+        
+        <div class="footer-columns">
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <div><i class="fas fa-envelope" style="margin-right: 8px;"></i> nav@institute.edu</div>
+                <div><i class="fas fa-phone" style="margin-right: 8px;"></i> +7 (XXX) XXX-XX-XX</div>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Разработчики</h4>
+                <p>Студенты гр. ПЕ-416 и ПЕ-426</p>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
