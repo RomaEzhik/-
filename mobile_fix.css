@@ -1,0 +1,282 @@
+/* ==========================================================================
+   mobile_fix.css — патч для nav.html на мобильных устройствах
+   Подключить ПОСЛЕ nav_styles.css:
+     <link rel="stylesheet" href="mobile_fix.css" />
+   ========================================================================== */
+
+/* ──────────────────────────────────────────────────────────────────────────
+   МОБИЛЬНЫЕ ≤ 768px
+   ────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* ── Убираем overflow-hidden с обёртки карты ── */
+  .map-wrap {
+    overflow: visible !important;
+    min-height: unset !important;
+    max-height: unset !important;
+    height: auto !important;
+  }
+
+  /* ── Карта занимает нормальную высоту ── */
+  #mapSvg {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    touch-action: none;   /* передаём тачи в JS */
+    cursor: grab;
+  }
+
+  /* ── Вся сцена — вертикальный поток ── */
+  .stage {
+    grid-template-columns: 1fr !important;
+    padding: 8px !important;
+    gap: 8px !important;
+  }
+
+  /* ── Топбар — 2 компактные строки ── */
+  .topbar {
+    padding: 6px 8px 6px 52px !important;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .controls {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-areas:
+      "start  end"
+      "build  reset"
+      "floors floors"
+      "zoom   zoom" !important;
+    gap: 5px !important;
+    align-items: stretch;
+    overflow: visible !important;
+  }
+
+  /* Старт / финиш */
+  .field.compact {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    padding: 5px 6px !important;
+    width: auto !important;
+    min-width: 0 !important;
+  }
+
+  .field.compact:first-of-type { grid-area: start; }
+  .field.compact:last-of-type  { grid-area: end;   }
+
+  .field.compact label {
+    font-size: 10px !important;
+    margin: 0 !important;
+  }
+
+  .section-select {
+    width: 100% !important;
+    font-size: 11px !important;
+    padding: 5px 3px !important;
+  }
+
+  .room-select {
+    width: 100% !important;
+    font-size: 11px !important;
+    padding: 5px 3px !important;
+  }
+
+  /* Кнопки Построить / Сброс */
+  #buildBtn {
+    grid-area: build;
+    padding: 9px 6px !important;
+    font-size: 13px !important;
+    white-space: nowrap;
+  }
+
+  #clearBtn {
+    grid-area: reset;
+    padding: 9px 6px !important;
+    font-size: 13px !important;
+    white-space: nowrap;
+  }
+
+  /* Переключатель этажей */
+  .floor-selector {
+    grid-area: floors;
+    margin-left: 0 !important;
+    justify-content: center !important;
+    width: 100%;
+  }
+
+  .floor-btn {
+    flex: 1 !important;
+    height: 36px !important;
+    font-size: 14px !important;
+    border-radius: 8px !important;
+  }
+
+  /* Зум */
+  .zoom-controls {
+    grid-area: zoom;
+    margin-left: 0 !important;
+    justify-content: center !important;
+    width: 100%;
+    gap: 6px !important;
+  }
+
+  .btn-small {
+    flex: 1 !important;
+    padding: 7px !important;
+    font-size: 18px !important;
+    min-width: 44px !important;
+    max-width: 100px;
+  }
+
+  /* ── Кнопка домой ── */
+  .home-button-container {
+    top: 6px !important;
+    left: 6px !important;
+    z-index: 20;
+  }
+
+  .home-button {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 18px !important;
+  }
+
+  /* ── Плавающие кнопки этажей ── */
+  .floor-nav {
+    left: 6px !important;
+    z-index: 50;
+  }
+
+  .floor-nav-btn {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 18px !important;
+    opacity: 0.85;
+  }
+
+  /* ── Боковая панель ── */
+  .panel {
+    gap: 8px !important;
+  }
+
+  .card {
+    padding: 10px 12px !important;
+    border-radius: 10px !important;
+  }
+
+  .card-title {
+    font-size: 13px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .result {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* ── Инструкция маршрута ── */
+  .route-instructions {
+    max-height: 220px !important;
+  }
+
+  .step-floor    { font-size: 12px !important; }
+  .step-path-full { font-size: 11px !important; }
+  .step-change   { font-size: 11px !important; }
+
+  /* ── Подсветка корпусов ── */
+  .corpus-highlight-panel {
+    margin-top: 0 !important;
+  }
+
+  .corpus-highlight-panel .card-title {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    font-size: 12px !important;
+  }
+
+  .clear-highlight-btn {
+    font-size: 10px !important;
+    padding: 3px 8px !important;
+  }
+
+  .corpus-checkboxes {
+    gap: 5px !important;
+  }
+
+  .corpus-checkbox {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+  }
+
+  .highlight-options {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    font-size: 11px !important;
+  }
+
+  .speed-control input[type=range] {
+    width: 60px !important;
+  }
+
+  /* ── Подсказка-облачко ── */
+  .custom-hint {
+    left: 54px !important;
+    top: auto !important;
+    bottom: 120px;
+  }
+
+  .hint-icon {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .hint-bubble {
+    max-width: 170px !important;
+    padding: 7px 10px !important;
+  }
+
+  .hint-text {
+    font-size: 12px !important;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   СОВСЕМ МАЛЕНЬКИЕ ≤ 380px
+   ────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 380px) {
+
+  .topbar {
+    padding-left: 48px !important;
+  }
+
+  .field.compact label {
+    font-size: 9px !important;
+  }
+
+  .section-select,
+  .room-select {
+    font-size: 10px !important;
+  }
+
+  #buildBtn,
+  #clearBtn {
+    font-size: 12px !important;
+    padding: 8px 4px !important;
+  }
+
+  .floor-btn {
+    font-size: 12px !important;
+    height: 32px !important;
+  }
+
+  .home-button {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 16px !important;
+  }
+}
